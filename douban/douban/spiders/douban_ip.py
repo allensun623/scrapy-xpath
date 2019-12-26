@@ -49,6 +49,9 @@ def parse(data, count, top_url, url_detail):
         json.dump(data, outfile, indent=4, ensure_ascii=False)
 
     if nextpage:
+        delay = random.randint(3, 10)
+        logging.debug("### random delay: %s s ###" % delay)
+        time.sleep(delay)
         parse(data, count, top_url, top_url + nextpage[0])
 
 

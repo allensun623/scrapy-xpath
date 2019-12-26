@@ -8,47 +8,70 @@ import json
 import pysnooper
 """get the information from douban top 250"""
 
-def __product():
+def input_xpath():
+    list_xpath = "//div[@class='article']/ol[@class='grid_view']/li"
+    rank_xpath = "/div[@class='item']/div[@class='pic']/em/text()"
+    title_xpath = "/div[@class='item']/div[@class='info']/div[@class='hd']/a/span[@class='title']/text()"
+    stars_xpath = "/div[@class='item']/div[@class='info']/div[@class='bd']/p[1]/text()"
+    __product(list_xpath,
+            rank_xpath,
+            title_xpath,
+            stars_xpath)
+
+@pysnooper.snoop()
+def __product(list_xpath="", 
+            item1="", 
+            item2="", 
+            item3="", 
+            item4="", 
+            item5="", 
+            item6="", 
+            item7=""):
+    print(item1)
+    arguments = locals()
     top_url = "https://movie.douban.com/top250"
     url_detail = "https://movie.douban.com/top250"
-    #Because of anti-scrapy, running until get the information or up to 30x
     count = 0
     data = []
-    parse(data, count, top_url, url_detail)
+    lixpath = []
+    for value in arguments.values():
+        if value is not None:
+            lixpath.append(value)
+    print(lixpath)
+    parse(data, count, top_url, url_detail, lixpath)
 
-def parse(data, count, top_url, url_detail):    
+def parse(data, count, top_url, url_detail, lixpath):    
     html_etree = html_request(url_detail)
-    product_li_xpath1 = "//div[@class='article']/ol[@class='grid_view']/li"
-    li = html_etree.xpath(product_li_xpath1)    
+    product_li_xpath = lixpath[0]
+    li = html_etree.xpath(product_li_xpath)    
     #print move + actors
+    
     for list_num in range(len(li)):
         count += 1
-        product_rank_xpath = product_li_xpath1 + \
+        movie = {"rank": "",
+            "title": "",
+            "stars": ""}
+        for i_xpath, item_key in zip(lixpath[1:], movie):
+            item_xpath = product_li_xpath + \
                         "[%i]"%(list_num+1) + \
-                        "/div[@class='item']/div[@class='pic']/em/text()"
-        rank = html_etree.xpath(product_rank_xpath)[0]        
-        product_title_xpath = product_li_xpath1 + \
-                        "[%i]"%(list_num+1) + \
-                        "/div[@class='item']/div[@class='info']/div[@class='hd']/a/span[@class='title']/text()"
-        title = html_etree.xpath(product_title_xpath)[0]
-        product_name_xpath = product_li_xpath1 + \
-                        "[%i]"%(list_num+1) + \
-                        "/div[@class='item']/div[@class='info']/div[@class='bd']/p[1]/text()"
-        stars = html_etree.xpath(product_name_xpath)[0].strip()
-        print(rank + ": " +title + "\n" + stars)
-        movie = {"rank": rank,
-            "title": title,
-            "stars": stars}
-        data.append(movie)
-    #next page
-    product_page_xpath = "//div[@class='paginator']/span[@class='next']/a/@href"
-    nextpage = html_etree.xpath(product_page_xpath)
-    
+                        i_xpath
+            item_value = html_etree.xpath(item_xpath)[0] 
+            item_dic = {item_key, item_value}       
+            movie.update(item_dic)
+        print(movie)
+        data.append(movie)  
+
     with open('douban-top250.json', 'w') as outfile:
         #indent=4: indent item; ensure_ascii=False: not encode charactors
         json.dump(data, outfile, indent=4, ensure_ascii=False)
-
+    
+    #next page
+    product_page_xpath = "//div[@class='paginator']/span[@class='next']/a/@href"
+    nextpage = html_etree.xpath(product_page_xpath)  
     if nextpage:
+        delay = random.randint(3, 10)
+        logging.debug("### random delay: %s s ###" % delay)
+        time.sleep(delay)
         parse(data, count, top_url, top_url + nextpage[0])
 
 

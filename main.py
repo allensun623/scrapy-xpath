@@ -1,0 +1,23 @@
+from costco import costco_chairs
+from douban import douban
+from gate import gate_news
+from zhihu import zhihu_hot
+import timeit 
+
+def main():
+    #costco_chairs.product()
+    #douban.run_spider()
+    #gate_news.run_spider()
+    '''cauculate runtime'''
+    start = timeit.default_timer()
+    #run
+    zhihu_hot.run_spider()
+    
+    stop = timeit.default_timer()
+    time = stop - start
+    print("================================================================")
+    print('Runtime: ', time)  
+    print("================================================================")
+
+if __name__ == "__main__":
+    main()

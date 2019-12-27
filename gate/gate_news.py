@@ -10,7 +10,7 @@ import json
 import pysnooper
 import timeit
 import time
-import driver_page
+from gate import driver_page
 """get the information from douban top 250"""
 
 def input_xpath():
@@ -31,7 +31,7 @@ def input_xpath():
             }
     return top_url, xpath_dic, item_output
 
-def __product():
+def run_spider():
     top_url, xpath_dic, item_output = input_xpath()
     lixpath = [value for value in xpath_dic.values()]
     url_detail = top_url 
@@ -116,7 +116,7 @@ def html_request_cookie(url_detail):
 def main():
     '''cauculate runtime'''
     start = timeit.default_timer()
-    __product()
+    run_spider()
     stop = timeit.default_timer()
     time = stop - start
     print("================================================================")

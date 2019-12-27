@@ -7,6 +7,7 @@ from fake_useragent import UserAgent
 import json
 import pysnooper
 import time
+from proxy import proxy_list
 """get the information from douban top 250"""
 
 def input_xpath():
@@ -31,7 +32,7 @@ def input_xpath():
             "quote": ""}
     return top_url, xpath_dic, item_output
 
-def __product():
+def run_spider():
     top_url, xpath_dic, item_output = input_xpath()
     lixpath = [value for value in xpath_dic.values()]
     url_detail = top_url 
@@ -39,6 +40,7 @@ def __product():
     data = []
     parse(data, count, top_url, url_detail, lixpath, item_output)
 
+@pysnooper.snoop()
 def parse(data, count, top_url, url_detail, lixpath, item_output):    
     html_etree = html_request(url_detail)
     product_li_xpath = lixpath[0]
@@ -106,7 +108,7 @@ def html_request_cookie(url_detail):
     return html_etree
 
 def main():
-    __product()
+    run_spider()
 
 if __name__ == "__main__":
     main()

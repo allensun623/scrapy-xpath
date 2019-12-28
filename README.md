@@ -32,15 +32,12 @@ Get the ip and random list or from redis.
 
 #### PS
 - get next page with `href`
-    * `douban`, `amazon`, `github`
+    - `douban`, `amazon`, `github`
 
 - get next page with `new url`
     - `costco`
 
 - get next page with `driver for onclick()`
     - `gate`
-
-    - install chrome driver
-    - folder `webdriver`
-
-    - simulate js action
+        - install chrome driver in the folder `webdriver`
+        - simulate js action

@@ -41,3 +41,9 @@ Get the ip and random list or from redis.
     - `gate`
         - install chrome driver in the folder `webdriver`
         - simulate js action
+
+- get next page when scrolling down
+    - `twitter`
+
+- login firt
+    - `zhihu`, `twitter`

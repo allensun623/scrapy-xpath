@@ -13,17 +13,17 @@ import time
 
 
 def run_spider(): 
-    url_detail = "https://www.costco.com/CatalogSearch?dept=All&keyword=chairs"
-    product_li_xpath = "//div[@id='filter-header']/span[@class='filter-title']/text()"
-    product_item1_xpath = "//div[@class='style-check '][5]/a/label"
-    product_item2_xpath = "//p[@class='description'/a/text()]"
-    product_item3_xpath = "//div[@class='price']/text()"
-    product_item4_xpath = "//span[@class='offscreen']/text()"
+    url_detail = "https://twitter.com/search?q=nba&src=typed_query"
+    product_li_xpath = "//body/div[@id='doc']"
+    product_item1_xpath = "//div[@id='page-container']"
+    product_item2_xpath = "//p[@class='TweetTextSize  js-tweet-text tweet-text']/text()"
+    product_item3_xpath = "//strong[@class='fullname show-popup-with-id u-textTruncate ']/text()"
+    product_item4_xpath = "//ol[@class='stream-items js-navigable-stream']/li"
     i = 0 
     list_success = []
     while i < 20:
         i += 1
-        html_choice = random.choice([True, False])
+        #html_choice = random.choice([True, False])
         #if html_choice:
         #    html_etree = html_request_cookie(url_detail)            
         #else:
@@ -33,7 +33,7 @@ def run_spider():
         item2 = html_etree.xpath(product_item2_xpath)
         item3 = html_etree.xpath(product_item3_xpath)
         item4 = html_etree.xpath(product_item4_xpath)
-        print(html_choice)
+        #print(html_choice)
         print(li)
         print(item1)
         print(item2)
@@ -41,10 +41,10 @@ def run_spider():
         print(item4)
         print("Attempted %i: " % i)
         if len(li)!=0: 
-            list_success.append("Succeeded at %i ! with cookie %s" % (i, html_choice)) 
-        delay = random.randint(3, 10)
-        print("Scrapy dealy %i seconds"%delay)
-        time.sleep(delay)
+            list_success.append("Succeeded at %i !" % i) 
+        #delay = random.randint(3, 10)
+        #print("Scrapy dealy %i seconds"%delay)
+        #time.sleep(delay)
     print(list_success)
     print("Success times: %i" % len(list_success))
 
@@ -58,7 +58,7 @@ def html_request(url_detail):
                             headers=HEADERS, 
                             proxies=proxies)
     print(response)
-    html_etree = etree.HTML(response.content.decode('utf-8'))
+    html_etree = etree.HTML(response.content)
     return html_etree
 
 def html_request_cookie(url_detail):
@@ -86,7 +86,7 @@ def html_request_cookie(url_detail):
                             cookies=cookie, 
                             headers=HEADERS, 
                             proxies=proxies)
-    html_etree = etree.HTML(response.content.decode('utf-8'))
+    html_etree = etree.HTML(response.content)
     return html_etree
 
 def main():

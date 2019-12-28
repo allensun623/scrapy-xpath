@@ -31,16 +31,16 @@ In the file `proxy_list.py`
 Get the ip and random list or from redis.
 
 #### PS
-get next page with `href`
-`douban`, `amazon`, `github`
+- get next page with `href`
+    * `douban`, `amazon`, `github`
 
-get next page with `new url`
-`costco`
+- get next page with `new url`
+    - `costco`
 
-get next page with `driver for onclick()`
-`gate`
+- get next page with `driver for onclick()`
+    - `gate`
 
-- install chrome driver
-folder `webdriver`
+    - install chrome driver
+    - folder `webdriver`
 
-- simulate js action
+    - simulate js action

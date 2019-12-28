@@ -17,7 +17,6 @@ def get_random_ip():
         proxy_list.append('http://' + ip)
     proxy_ip = random.choice(proxy_list)
     proxies = {'http': proxy_ip}
-    print(proxies)
     return proxies
 
 
@@ -28,7 +27,6 @@ def get_proxy():
         if response.status_code == 200:
             proxy_ip = 'http://' + response.text
             proxies = {'http': proxy_ip}
-            print(proxies)
             return proxies
     except ConnectionError:
         return None

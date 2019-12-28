@@ -7,25 +7,27 @@ from fake_useragent import UserAgent
 import json
 import pysnooper
 from proxy import proxy_list
+import random
+import time
 """get the information from douban top 250"""
 
 
 def run_spider(): 
-    url_detail = "https://www.zhihu.com/hot"
-    product_li_xpath = "//div[@class='HotItem-content']/a/h2[@class='HotItem-title']/text()"
-    product_item1_xpath = "//section[@class='HotItem'][1]/div[@class='HotItem-content']/a/p[@class='HotItem-excerpt']/text()"
-    product_item2_xpath = "//section[@class='HotItem'][1]/div[@class='HotItem-content']/a/p[@class='HotItem-excerpt']/text()"
-    product_item3_xpath = "//a[@class='TopstoryTabs-link Topstory-tabsLink'][2]/text()"
-    product_item4_xpath = "//footer[@class='Footer']/a[@class='Footer-item'][5]/text()"
+    url_detail = "https://www.costco.com/CatalogSearch?dept=All&keyword=chairs"
+    product_li_xpath = "//div[@id='filter-header']/span[@class='filter-title']/text()"
+    product_item1_xpath = "//div[@class='style-check '][5]/a/label"
+    product_item2_xpath = "//p[@class='description'/a/text()]"
+    product_item3_xpath = "//div[@class='price']/text()"
+    product_item4_xpath = "//span[@class='offscreen']/text()"
     i = 0 
     list_success = []
     while i < 20:
         i += 1
         html_choice = random.choice([True, False])
-        if html_choice:
-            html_etree = html_request_cookie(url_detail)            
-        else:
-            html_etree = html_request(url_detail)
+        #if html_choice:
+        #    html_etree = html_request_cookie(url_detail)            
+        #else:
+        html_etree = html_request(url_detail)
         li = html_etree.xpath(product_li_xpath) 
         item1 = html_etree.xpath(product_item1_xpath)
         item2 = html_etree.xpath(product_item2_xpath)
@@ -40,6 +42,9 @@ def run_spider():
         print("Attempted %i: " % i)
         if len(li)!=0: 
             list_success.append("Succeeded at %i ! with cookie %s" % (i, html_choice)) 
+        delay = random.randint(3, 10)
+        print("Scrapy dealy %i seconds"%delay)
+        time.sleep(delay)
     print(list_success)
     print("Success times: %i" % len(list_success))
 
@@ -52,6 +57,7 @@ def html_request(url_detail):
     response = requests.get(url_detail, 
                             headers=HEADERS, 
                             proxies=proxies)
+    print(response)
     html_etree = etree.HTML(response.content.decode('utf-8'))
     return html_etree
 

@@ -4,9 +4,8 @@ Scrapy data from related webs
 
 #### requirements install
 
-```
-pip3 install -r requirements.txt
-```
+> pip3 install -r requirements.txt
+
 
 ### Install Redis
 
@@ -16,20 +15,32 @@ Start Redis under its path, ex.`/usr/local/binredis-3.2.9`
 
 ### setup proxypool
 
-```
-cd proxy/proxypool
-```
+> cd proxy/proxypool
 
 in the folder of `proxypool`, change file `settings.py` 
 
-setup the `PASSWORD` which is Redis password; if no password, change to `None`
+setup the `PASSWORD` which is Redis password; if no password, leave it `None`
 
 
-#### run proxy and API
+### Run proxy and API
 
-```
-python3 run.py
-```
+> python3 proxy/run.py
 
-## in the file `proxy_list.py`
+#### Get the IP
+In the file `proxy_list.py`
 Get the ip and random list or from redis.
+
+#### PS
+get next page with `href`
+`douban`, `amazon`, `github`
+
+get next page with `new url`
+`costco`
+
+get next page with `driver for onclick()`
+`gate`
+
+- install chrome driver
+folder `webdriver`
+
+- simulate js action
